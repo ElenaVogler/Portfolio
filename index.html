@@ -121,7 +121,7 @@
   <div class="card" id="card-einsamkeit" onclick="window.location.href='einsamkeit.html'">
     <div class="card-top">
       <img src="Einsamkeit_poster_Neu.jpg" alt="Wenn Einsamkeit politisch wird">
-      <video id="video-einsamkeit" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
+      <video id="video-einsamkeit" muted loop playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Wenn Einsamkeit politisch wird</span>
     <div class="card-bottom">
@@ -245,7 +245,7 @@
     card.addEventListener('mouseenter', () => {
       if (isMobile()) return;
       video.style.display = 'block';
-      video.play();
+      video.play().catch(() => {});
     });
     card.addEventListener('mouseleave', () => {
       if (isMobile()) return;
