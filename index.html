@@ -229,13 +229,15 @@
     resetLayout();
   });
 
-  // Start all videos on first mouse movement — avoids click requirement
-  let videosStarted = false;
-  document.addEventListener('mousemove', () => {
-    if (videosStarted) return;
-    videosStarted = true;
-    document.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
-  }, { once: false });
+  // Unlock videos on first interaction with the strip
+  let videosUnlocked = false;
+  strip.addEventListener('pointerdown', () => {
+    if (videosUnlocked) return;
+    videosUnlocked = true;
+    document.querySelectorAll('video').forEach(v => {
+      v.play().then(() => v.pause()).catch(() => {});
+    });
+  }, { once: true });
 
   // MP4 hover videos
   [
