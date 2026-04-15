@@ -34,6 +34,7 @@
     position: relative; z-index: 2;
     transition: opacity 0.5s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1);
   }
+  .card-top img.hidden { opacity: 0; }
   .card.active .card-top img { transform: scale(1.03); }
   .card.playing .card-top img { opacity: 0; }
 
@@ -90,7 +91,7 @@
   <div class="card" id="card-democracy" onclick="window.location.href='democracy.html'">
     <div class="card-top">
       <img src="DSC07051.jpg" alt="Entangled in Democracy">
-      <video id="video-democracy" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="democracy-preview.mp4" type="video/mp4"></video>
+      <video id="video-democracy" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="democracy-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Entangled in Democracy</span>
     <div class="card-bottom">
@@ -105,7 +106,7 @@
   <div class="card" id="card-lautli" onclick="window.location.href='lautli.html'">
     <div class="card-top">
       <img src="DSC06556.jpg" alt="Lautli">
-      <video id="video-lautli" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="lautli-preview.mp4" type="video/mp4"></video>
+      <video id="video-lautli" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="lautli-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Lautli — Graz</span>
     <div class="card-bottom">
@@ -120,7 +121,7 @@
   <div class="card" id="card-einsamkeit" onclick="window.location.href='einsamkeit.html'">
     <div class="card-top">
       <img src="Einsamkeit_poster_Neu.jpg" alt="Wenn Einsamkeit politisch wird">
-      <video id="video-einsamkeit" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
+      <video id="video-einsamkeit" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Wenn Einsamkeit politisch wird</span>
     <div class="card-bottom">
@@ -135,7 +136,7 @@
   <div class="card" id="card-nebel" onclick="window.location.href='nebel.html'">
     <div class="card-top">
       <img src="DSC04496.png" alt="Die Nebel lichten sich">
-      <video id="video-nebel" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="nebel-preview.mp4" type="video/mp4"></video>
+      <video id="video-nebel" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="nebel-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Die Nebel lichten sich</span>
     <div class="card-bottom">
@@ -150,7 +151,7 @@
   <div class="card" id="card-diba" onclick="window.location.href='diba.html'">
     <div class="card-top">
       <img src="schaufensterbespielung5.png" alt="Diba Cafe Bar">
-      <video id="video-diba" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="diba-preview.mp4" type="video/mp4"></video>
+      <video id="video-diba" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;"><source src="diba-preview.mp4" type="video/mp4"></video>
     </div>
     <span class="card-label-v">Diba Cafe Bar</span>
     <div class="card-bottom">
@@ -240,15 +241,16 @@
   ].forEach(([cardId, videoId]) => {
     const card = document.getElementById(cardId);
     const video = document.getElementById(videoId);
+    const img = card.querySelector('img');
     card.addEventListener('mouseenter', () => {
       if (isMobile()) return;
+      video.style.display = 'block';
       video.play();
-      video.style.opacity = '1';
     });
     card.addEventListener('mouseleave', () => {
       if (isMobile()) return;
+      video.style.display = 'none';
       video.pause();
-      video.style.opacity = '0';
     });
   });
 </script>
