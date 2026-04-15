@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elena Vogler — Motion & Exhibition Design</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --border: 1px solid #111; --blue: #0000ff; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  nav { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: var(--border); flex-shrink: 0; z-index: 100; background: #fff; }
+  nav .name { font-size: 13px; font-weight: 700; color: #111; text-decoration: none; }
+  nav .subtitle { font-size: 12px; color: #999; letter-spacing: 0.05em; text-transform: uppercase; }
+  nav .nav-right { display: flex; gap: 20px; align-items: center; }
+  nav a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--blue); }
+
+  .strip { flex: 1; position: relative; overflow: hidden; }
+
+  .card {
+    position: absolute; top: 0; bottom: 0;
+    overflow: hidden; border-right: var(--border);
+    background: #fff; cursor: pointer;
+    transition: left 0.7s cubic-bezier(0.16,1,0.3,1), width 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card:last-child { border-right: none; }
+
+  /* Card image area: height calculated to give 16:9 when card is active width */
+  .card-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 63%; overflow: hidden; background: #000;
+  }
+  .card-top img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    position: relative; z-index: 2;
+    transition: opacity 0.5s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .card.active .card-top img { transform: scale(1.03); }
+  .card.playing .card-top img { opacity: 0; }
+
+  /* Vimeo: exact 16:9 inside the card-top */
+  .vimeo-wrap {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vimeo-wrap iframe { width: 100%; height: 100%; border: none; }
+
+  .card-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 37%;
+    background: #fff; border-top: var(--border);
+    padding: 18px 22px; display: flex; flex-direction: column;
+    justify-content: center; gap: 6px; overflow: hidden;
+  }
+  .card-type { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); white-space: nowrap; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease 0.28s, transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.28s; }
+  .card-title { font-size: clamp(14px, 1.8vw, 24px); font-weight: 800; letter-spacing: -0.03em; color: #111; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease 0.35s, transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.35s; }
+  .card-desc { font-size: 12px; color: #555; line-height: 1.55; opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease 0.42s, transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.42s; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .card.active .card-type, .card.active .card-title, .card.active .card-desc { opacity: 1; transform: translateY(0); }
+  .card-label-v { position: absolute; top: 31%; left: 50%; transform: translate(-50%,-50%) rotate(-90deg); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); white-space: nowrap; transition: opacity 0.25s ease; pointer-events: none; z-index: 10; }
+  .card.active .card-label-v { opacity: 0; }
+  .card-arrow { position: absolute; right: 20px; bottom: 16px; font-size: 13px; font-weight: 700; color: var(--blue); opacity: 0; transform: translateX(-8px); transition: opacity 0.4s ease 0.5s, transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.5s; z-index: 10; white-space: nowrap; }
+  .card.active .card-arrow { opacity: 1; transform: translateX(0); }
+
+  /* Mobile */
+  @media (max-width: 700px) {
+    body { height: auto; overflow-y: auto; }
+    nav .subtitle { display: none; }
+    .strip { position: static; overflow: visible; display: flex; flex-direction: column; height: auto; }
+    .card { position: relative !important; left: auto !important; width: 100% !important; height: auto; border-right: none; border-bottom: var(--border); transition: none; }
+    .card-top { position: relative; height: 56vw; top: auto; left: auto; right: auto; }
+    .card-bottom { position: relative; height: auto; bottom: auto; left: auto; right: auto; padding: 16px 20px 20px; }
+    .card-type, .card-title, .card-desc { opacity: 1; transform: none; }
+    .card-label-v { display: none; }
+    .card-arrow { opacity: 1; transform: none; position: static; display: inline-block; margin-top: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="name">Elena Vogler</a>
+  <span class="subtitle">Motion & Exhibition Design</span>
+  <div class="nav-right">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="strip" id="strip">
+
+  <!-- 01: Entangled in Democracy -->
+  <div class="card" id="card-democracy" onclick="window.location.href='democracy.html'">
+    <div class="card-top">
+      <img src="DSC07051.jpg" alt="Entangled in Democracy">
+      <video id="video-democracy" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="democracy-preview.mp4" type="video/mp4"></video>
+    </div>
+    <span class="card-label-v">Entangled in Democracy</span>
+    <div class="card-bottom">
+      <span class="card-type">Exhibition · ESC Graz 2026</span>
+      <span class="card-title">Entangled in Democracy</span>
+      <span class="card-desc">What does democracy mean when reality has become negotiable?</span>
+      <span class="card-arrow">View project →</span>
+    </div>
+  </div>
+
+  <!-- 02: Lautli -->
+  <div class="card" id="card-lautli" onclick="window.location.href='lautli.html'">
+    <div class="card-top">
+      <img src="DSC06556.jpg" alt="Lautli">
+      <video id="video-lautli" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="lautli-preview.mp4" type="video/mp4"></video>
+    </div>
+    <span class="card-label-v">Lautli — Graz</span>
+    <div class="card-bottom">
+      <span class="card-type">Facade projection · Graz 2025</span>
+      <span class="card-title">Lautli — Lange Nacht der Museen</span>
+      <span class="card-desc">A facade becomes a canvas for one night. Letterpress tradition meets projection technology.</span>
+      <span class="card-arrow">View project →</span>
+    </div>
+  </div>
+
+  <!-- 03: Wenn Einsamkeit -->
+  <div class="card" id="card-einsamkeit" onclick="window.location.href='einsamkeit.html'">
+    <div class="card-top">
+      <img src="Einsamkeit_poster_Neu.jpg" alt="Wenn Einsamkeit politisch wird">
+      <video id="video-einsamkeit" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
+    </div>
+    <span class="card-label-v">Wenn Einsamkeit politisch wird</span>
+    <div class="card-bottom">
+      <span class="card-type">Interactive infographic · Design Week Graz</span>
+      <span class="card-title">Wenn Einsamkeit politisch wird</span>
+      <span class="card-desc">Loneliness is not a private problem. It changes how people think about democracy.</span>
+      <span class="card-arrow">View project →</span>
+    </div>
+  </div>
+
+  <!-- 04: Nebel -->
+  <div class="card" id="card-nebel" onclick="window.location.href='nebel.html'">
+    <div class="card-top">
+      <img src="DSC04496.png" alt="Die Nebel lichten sich">
+      <video id="video-nebel" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="nebel-preview.mp4" type="video/mp4"></video>
+    </div>
+    <span class="card-label-v">Die Nebel lichten sich</span>
+    <div class="card-bottom">
+      <span class="card-type">Bachelor project · Fog projection</span>
+      <span class="card-title">Die Nebel lichten sich</span>
+      <span class="card-desc">Text, photography, and movement projected onto fog. A fleeting medium for a fleeting subject.</span>
+      <span class="card-arrow">View project →</span>
+    </div>
+  </div>
+
+  <!-- 05: Diba -->
+  <div class="card" id="card-diba" onclick="window.location.href='diba.html'">
+    <div class="card-top">
+      <img src="schaufensterbespielung5.png" alt="Diba Cafe Bar">
+      <video id="video-diba" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;z-index:1;"><source src="diba-preview.mp4" type="video/mp4"></video>
+    </div>
+    <span class="card-label-v">Diba Cafe Bar</span>
+    <div class="card-bottom">
+      <span class="card-type">Window projection · Munich</span>
+      <span class="card-title">Diba Cafe Bar</span>
+      <span class="card-desc">Animated guitar strings form the name of a jazz bar. Visual and acoustic in dialogue.</span>
+      <span class="card-arrow">View project →</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const isMobile = () => window.innerWidth <= 700;
+  const strip = document.getElementById('strip');
+  const cards = Array.from(strip.querySelectorAll('.card'));
+  const N = cards.length;
+
+  // Active card takes up enough width for 16:9 in the 63% image area
+  // strip height h → image height = 0.63h → 16:9 width = 0.63h * 16/9
+  function getActiveW() {
+    const h = strip.offsetHeight;
+    const needed = (h * 0.63) * (16 / 9);
+    // clamp between 35% and 60% of strip width
+    return Math.min(Math.max(needed, strip.offsetWidth * 0.35), strip.offsetWidth * 0.60);
+  }
+  const INACTIVE_W = () => (strip.offsetWidth - getActiveW()) / (N - 1);
+
+  let currentActive = -1;
+
+  function layout(activeIndex) {
+    if (isMobile()) return;
+    const totalW = strip.offsetWidth;
+    const activeW = getActiveW();
+    const inactiveW = INACTIVE_W();
+    cards.forEach((card, i) => {
+      if (activeIndex === -1) {
+        const eq = totalW / N;
+        card.style.width = eq + 'px';
+        card.style.left = (i * eq) + 'px';
+        card.style.zIndex = i + 1;
+        card.classList.remove('active', 'playing');
+        return;
+      }
+      let left, width;
+      if (i < activeIndex) { left = i * inactiveW; width = inactiveW; }
+      else if (i === activeIndex) { left = activeIndex * inactiveW; width = activeW; }
+      else { left = activeIndex * inactiveW + activeW + (i - activeIndex - 1) * inactiveW; width = inactiveW; }
+      card.style.left = left + 'px';
+      card.style.width = width + 'px';
+      card.style.zIndex = i === activeIndex ? 50 : i + 1;
+      card.classList.toggle('active', i === activeIndex);
+    });
+  }
+
+  function resetLayout() {
+    cards.forEach(c => c.classList.remove('active', 'playing'));
+    layout(-1);
+    currentActive = -1;
+  }
+
+  layout(-1);
+  window.addEventListener('resize', () => layout(currentActive));
+
+  // Hover
+  cards.forEach((card, i) => {
+    card.addEventListener('mouseenter', () => {
+      if (isMobile()) return;
+      currentActive = i;
+      layout(i);
+    });
+  });
+  strip.addEventListener('mouseleave', () => {
+    if (isMobile()) return;
+    resetLayout();
+  });
+
+  // Vimeo: iframes already have autoplay=1 so they load immediately.
+  // On hover show video (fade out photo), on leave show photo again.
+  // MP4 hover videos
+  [
+    ['card-democracy', 'video-democracy'],
+    ['card-lautli',    'video-lautli'],
+    ['card-einsamkeit','video-einsamkeit'],
+    ['card-nebel',     'video-nebel'],
+    ['card-diba',      'video-diba']
+  ].forEach(([cardId, videoId]) => {
+    const card = document.getElementById(cardId);
+    const video = document.getElementById(videoId);
+    card.addEventListener('mouseenter', () => {
+      if (isMobile()) return;
+      video.play();
+      video.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', () => {
+      if (isMobile()) return;
+      video.pause();
+      video.style.opacity = '0';
+    });
+  });
+</script>
+</body>
+</html>

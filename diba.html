@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diba Cafe Bar — Elena Vogler</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --border: 1px solid #111; --blue: #0000ff; }
+
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #fff; color: #111;
+  }
+
+  nav {
+    height: 50px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: var(--border);
+    position: sticky; top: 0; z-index: 100; background: #fff;
+  }
+  nav .name { font-size: 13px; font-weight: 700; color: #111; text-decoration: none; }
+  nav .subtitle { font-size: 12px; color: #999; letter-spacing: 0.05em; text-transform: uppercase; }
+  nav .nav-right { display: flex; gap: 20px; }
+  nav a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--blue); }
+
+  /* VIDEO HERO */
+  .video-hero {
+    width: 100%; aspect-ratio: 16/9;
+    background: #000; position: relative; overflow: hidden;
+  }
+  .video-hero iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; border: none;
+  }
+
+  /* INTRO */
+  .intro {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: var(--border);
+  }
+  .intro-left { padding: 60px 48px; border-right: var(--border); }
+  .project-type {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px;
+  }
+  .project-title {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 0.95;
+  }
+  .intro-right {
+    padding: 60px 48px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .intro-lead {
+    font-size: 22px; font-style: italic;
+    line-height: 1.4; color: #111; margin-bottom: 28px;
+  }
+  .intro-body { font-size: 13px; color: #444; line-height: 1.75; }
+  .intro-body p + p { margin-top: 14px; }
+
+  /* FULL WIDTH PHOTO */
+  .photo-full { width: 100%; border-bottom: var(--border); overflow: hidden; }
+  .photo-full img {
+    width: 100%; height: 60vh; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .photo-full:hover img { transform: scale(1.02); }
+
+  /* LARGE QUOTE */
+  .large-quote { padding: 80px 48px; border-bottom: var(--border); }
+  .large-quote p {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.05; max-width: 900px;
+  }
+  .large-quote p em { font-style: italic; font-weight: 400; }
+
+  /* 3-COLUMN PHOTO ROW */
+  .photo-row-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: var(--border);
+  }
+  .photo-row-3 .photo-item {
+    overflow: hidden; aspect-ratio: 3/2;
+    border-right: var(--border);
+  }
+  .photo-row-3 .photo-item:last-child { border-right: none; }
+  .photo-row-3 .photo-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .photo-row-3 .photo-item:hover img { transform: scale(1.04); }
+
+  /* 2-COLUMN PHOTO GRID */
+  .photo-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: var(--border);
+  }
+  .photo-grid-item {
+    overflow: hidden; aspect-ratio: 16/9;
+    border-right: var(--border); border-bottom: var(--border);
+  }
+  .photo-grid-item:nth-child(2n) { border-right: none; }
+  .photo-grid-item:nth-last-child(-n+2) { border-bottom: none; }
+  .photo-grid-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .photo-grid-item:hover img { transform: scale(1.04); }
+
+  /* BODY TEXT */
+  .body-block { border-bottom: var(--border); }
+  .body-block-inner {
+    padding: 60px 48px;
+    font-size: 13px; color: #444; line-height: 1.75; max-width: 680px;
+  }
+  .body-block-inner p + p { margin-top: 14px; }
+
+  /* CHIPS */
+  .chips-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 28px 48px; border-bottom: var(--border);
+  }
+  .chip {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: var(--border); padding: 4px 10px; color: #999;
+  }
+
+  footer {
+    height: 50px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-top: var(--border); background: #fff;
+  }
+  footer span { font-size: 12px; color: #999; }
+  footer a { font-size: 12px; font-weight: 600; color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 700px) {
+    nav .subtitle { display: none; }
+    .intro { grid-template-columns: 1fr; }
+    .intro-left { border-right: none; border-bottom: var(--border); padding: 40px 24px; }
+    .intro-right { padding: 40px 24px; }
+    .large-quote { padding: 48px 24px; }
+    .photo-row-3 { grid-template-columns: 1fr; }
+    .photo-row-3 .photo-item { border-right: none; border-bottom: var(--border); aspect-ratio: 16/9; }
+    .photo-row-3 .photo-item:last-child { border-bottom: none; }
+    .photo-grid { grid-template-columns: 1fr; }
+    .photo-grid-item { border-right: none; border-bottom: var(--border); }
+    .photo-grid-item:last-child { border-bottom: none; }
+    .body-block-inner { padding: 40px 24px; }
+    .chips-row { padding: 20px 24px; }
+    footer span:nth-child(2) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="name">Elena Vogler</a>
+  <span class="subtitle">Motion & Exhibition Design</span>
+  <div class="nav-right">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- VIDEO -->
+<div class="video-hero">
+  <iframe
+    src="https://player.vimeo.com/video/804904178?autoplay=1&loop=1&muted=1&controls=1&title=0&byline=0&portrait=0"
+    allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-left">
+    <p class="project-type">Window projection · Munich · 2023</p>
+    <h1 class="project-title">Diba<br>Cafe Bar</h1>
+  </div>
+  <div class="intro-right">
+    <p class="intro-lead">A shop window as a stage.</p>
+    <div class="intro-body">
+      <p>In collaboration with Studio MOTOMOTO from Munich, a window projection was created for the Diba Cafe Bar — a bar where jazz sets the mood and evenings move slowly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FULL PHOTO -->
+<div class="photo-full">
+  <img src="schaufensterbespielung_diba_cafe__1080p__00_00_23_20_Standbild005.png" alt="Diba Cafe Bar exterior">
+</div>
+
+<!-- LARGE QUOTE -->
+<div class="large-quote">
+  <p>The visual and the acoustic intertwine. People passing outside are drawn in — <em>not by advertising, but by movement.</em></p>
+</div>
+
+<!-- 3-COLUMN ROW -->
+<div class="photo-row-3">
+  <div class="photo-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_28_15_Standbild006.png" alt="Diba projection detail">
+  </div>
+  <div class="photo-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_32_24_Standbild007.png" alt="Diba exterior night">
+  </div>
+  <div class="photo-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_38_18_Standbild009.png" alt="Diba street view">
+  </div>
+</div>
+
+<!-- BODY TEXT -->
+<div class="body-block">
+  <div class="body-block-inner">
+    <p>The projection shows animated guitar strings moving to the rhythm, forming letters: the name of the bar. Animated typography and the warmth of the bar interior merge in the glass of the window.</p>
+    <p>The project was realized in collaboration with Studio MOTOMOTO, a Munich-based studio for generative and projected imagery.</p>
+  </div>
+</div>
+
+<!-- 2-COLUMN GRID -->
+<div class="photo-grid">
+  <div class="photo-grid-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_40_06_Standbild008.png" alt="Diba passersby">
+  </div>
+  <div class="photo-grid-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_48_24_Standbild011.png" alt="Diba people outside">
+  </div>
+  <div class="photo-grid-item">
+    <img src="schaufensterbespielung_diba_cafe__1080p__00_00_57_17_Standbild012.png" alt="Diba jazz atmosphere">
+  </div>
+</div>
+
+<!-- CHIPS -->
+<div class="chips-row">
+  <span class="chip">Window projection</span>
+  <span class="chip">Animation</span>
+  <span class="chip">Studio MOTOMOTO</span>
+  <span class="chip">Munich</span>
+  <span class="chip">2023</span>
+</div>
+
+<footer>
+  <span>Graz · 2025</span>
+  <span>Motion Design · Exhibition Design</span>
+  <a href="index.html">← Back to projects</a>
+</footer>
+
+</body>
+</html>
