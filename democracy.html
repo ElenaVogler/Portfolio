@@ -35,9 +35,26 @@
   .large-quote p { font-size: clamp(28px, 4vw, 52px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; max-width: 900px; }
   .large-quote p em { font-style: italic; font-weight: 400; }
 
-  .body-block { border-bottom: var(--border); }
-  .body-block-inner { padding: 60px 48px; font-size: 13px; color: #444; line-height: 1.75; max-width: 680px; }
-  .body-block-inner p + p { margin-top: 14px; }
+  /* Text and photo side by side. Put the photo div first in the markup
+     to flip the sides; the divider follows whichever column comes first. */
+  .text-photo { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+  .text-photo > *:first-child { border-right: var(--border); }
+  .text-photo-text {
+    padding: 60px 48px; display: flex; flex-direction: column; justify-content: center;
+    font-size: 13px; color: #444; line-height: 1.75;
+  }
+  .text-photo-text p { max-width: 520px; }
+  .text-photo-text p + p { margin-top: 14px; }
+  .text-photo-img { overflow: hidden; aspect-ratio: 4/3; }
+  .text-photo-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .text-photo-img:hover img { transform: scale(1.04); }
+
+  .credits { padding: 48px; font-size: 13px; color: #444; line-height: 1.75; }
+  .credits p + p { margin-top: 14px; }
+  .credits a { color: var(--blue); text-decoration: none; font-weight: 700; }
 
   .photo-grid { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
   .photo-grid-item { overflow: hidden; aspect-ratio: 4/3; border-right: var(--border); border-bottom: var(--border); }
@@ -46,14 +63,12 @@
   .photo-grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
   .photo-grid-item:hover img { transform: scale(1.04); }
 
-  .photo-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: var(--border); }
+  .photo-row-3 { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
   .photo-row-3 .photo-item { overflow: hidden; aspect-ratio: 3/2; border-right: var(--border); }
   .photo-row-3 .photo-item:last-child { border-right: none; }
   .photo-row-3 .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
   .photo-row-3 .photo-item:hover img { transform: scale(1.04); }
 
-  .chips-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 28px 48px; border-bottom: var(--border); }
-  .chip { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: var(--border); padding: 4px 10px; color: #999; }
 
   footer { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-top: var(--border); background: #fff; }
   footer span { font-size: 12px; color: #999; }
@@ -65,14 +80,16 @@
     .intro-left { border-right: none; border-bottom: var(--border); padding: 40px 24px; }
     .intro-right { padding: 40px 24px; }
     .large-quote { padding: 48px 24px; }
-    .body-block-inner { padding: 40px 24px; }
+    .text-photo { grid-template-columns: 1fr; }
+    .text-photo > *:first-child { border-right: none; border-bottom: var(--border); }
+    .text-photo-text { padding: 40px 24px; }
+    .credits { padding: 32px 24px; }
     .photo-grid { grid-template-columns: 1fr; }
     .photo-grid-item { border-right: none; border-bottom: var(--border); }
     .photo-grid-item:last-child { border-bottom: none; }
     .photo-row-3 { grid-template-columns: 1fr; }
     .photo-row-3 .photo-item { border-right: none; border-bottom: var(--border); aspect-ratio: 16/9; }
     .photo-row-3 .photo-item:last-child { border-bottom: none; }
-    .chips-row { padding: 20px 24px; }
     footer span:nth-child(2) { display: none; }
   }
 </style>
@@ -94,7 +111,7 @@
 
 <div class="intro">
   <div class="intro-left">
-    <p class="project-type">Exhibition · ESC Medien Kunst Labor Graz · 31 Jan – 26 Feb 2026</p>
+    <p class="project-type">Exhibition · esc Medien Kunst Labor Graz · 31 Jan – 26 Feb 2026</p>
     <h1 class="project-title">Entangled in<br>Democracy</h1>
   </div>
   <div class="intro-right">
@@ -110,14 +127,17 @@
 </div>
 
 <div class="large-quote">
-  <p>"Entangled in Democracy" engages with the loss of a shared understanding of reality, <em>unequal power structures, and the gradual erosion of democratic values.</em></p>
+  <p>"Entangled in Democracy" engages with the loss of a shared understanding of reality, unequal power structures, and the gradual erosion of democratic values.</p>
 </div>
 
-<div class="body-block">
-  <div class="body-block-inner">
-    <p>Developed in the master's program in exhibition design at FH Joanneum Graz, in cooperation with ESC Medien Kunst Labor and the research group Complex Social & Computational Systems at IDea_Lab, University of Graz.</p>
-    <p>ESC Medien Kunst Labor · Bürgergasse 5, Graz · Tue–Fri, 2–7 pm · Free admission</p>
-    <p><a href="https://www.fh-joanneum.at/en/event/exhibition-entangled-in-democracy/" target="_blank" style="color:var(--blue);font-weight:700;text-decoration:none;">→ fh-joanneum.at</a></p>
+<div class="text-photo">
+  <div class="text-photo-text">
+    <p>My role was the research and the moving image work. The starting point was a critical examination of democracy and of how media report on it: the coverage of the war in Iran and of Sudan, police violence, the balance of power between the United States and China, the persecution of the Uyghurs. The scope stayed deliberately broad.</p>
+    <p>From that research came fifteen minutes of animation with sound design, split into three five minute pieces distributed across the room and projected onto gauze.</p>
+    <p>Alongside that I worked on the graphics the exhibition needed as a whole: developing its graphic concept, and designing and producing the exhibition texts.</p>
+  </div>
+  <div class="text-photo-img">
+    <img src="DSC07079.jpg" alt="Animation projected onto gauze in the exhibition space">
   </div>
 </div>
 
@@ -131,19 +151,16 @@
 <div class="photo-row-3">
   <div class="photo-item"><img src="DSC07043.jpg" alt="Exhibition detail"></div>
   <div class="photo-item"><img src="DSC07073.jpg" alt="Exhibition atmosphere"></div>
-  <div class="photo-item"><img src="DSC07079.jpg" alt="Visitor interaction"></div>
 </div>
 
-<div class="chips-row">
-  <span class="chip">Exhibition Design</span>
-  <span class="chip">ESC Graz</span>
-  <span class="chip">FH Joanneum</span>
-  <span class="chip">Democracy</span>
-  <span class="chip">2026</span>
+<div class="credits">
+  <p>Developed in the master's program in exhibition design at FH Joanneum Graz, in cooperation with esc Medien Kunst Labor and the research group Complex Social &amp; Computational Systems at IDea_Lab, University of Graz.</p>
+  <p><a href="https://www.fh-joanneum.at/en/event/exhibition-entangled-in-democracy/" target="_blank" rel="noopener">→ fh-joanneum.at</a></p>
 </div>
+
 
 <footer>
-  <span>Graz · 2025</span>
+  <span>Graz · 2026</span>
   <span>Motion Design · Exhibition Design</span>
   <a href="index.html">← Back to projects</a>
 </footer>

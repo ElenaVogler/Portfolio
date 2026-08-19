@@ -39,8 +39,9 @@
   .photo-quote-img { overflow: hidden; border-right: var(--border); }
   .photo-quote-img img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 320px; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
   .photo-quote-img:hover img { transform: scale(1.03); }
-  .photo-quote-text { padding: 60px 48px; display: flex; align-items: center; }
-  .photo-quote-text p { font-size: clamp(20px, 2.5vw, 32px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .photo-quote-text { padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .photo-quote-text p { font-size: clamp(18px, 1.9vw, 26px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+  .photo-quote-text p + p { margin-top: 0.7em; }
   .photo-quote-text p em { font-style: italic; font-weight: 400; }
 
   /* CV sections — like body-block */
@@ -63,9 +64,6 @@
   .skill-list li { font-size: 12px; color: #444; padding: 7px 0; border-bottom: var(--border); }
   .skill-list li:last-child { border-bottom: none; }
 
-  /* CHIPS */
-  .chips-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 28px 48px; border-bottom: var(--border); }
-  .chip { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: var(--border); padding: 4px 10px; color: #999; }
 
   footer { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-top: var(--border); background: #fff; }
   footer span { font-size: 12px; color: #999; }
@@ -84,8 +82,7 @@
     .skills-row { grid-template-columns: 1fr; }
     .skill-block { border-right: none; border-bottom: var(--border); padding: 32px 24px; }
     .skill-block:last-child { border-bottom: none; }
-    .chips-row { padding: 20px 24px; }
-    footer span:nth-child(2) { display: none; }
+    footer span { display: none; }
   }
 </style>
 </head>
@@ -103,14 +100,13 @@
 <!-- INTRO -->
 <div class="intro">
   <div class="intro-left">
-    <p class="project-type">Motion & Exhibition Design · Graz</p>
-    <h1 class="project-title">Hello.</h1>
+    <p class="project-type">Motion & Exhibition Design</p>
+    <h1 class="project-title">Hey!</h1>
   </div>
   <div class="intro-right">
     <p class="intro-lead">Elena Vogler — motion designer and exhibition designer based in Graz, working internationally.</p>
     <div class="intro-body">
-      <p>The work exists at the intersection of digital media and physical space. Projections, interactive installations, data visualizations — things that only exist in the moment, and bring people together.</p>
-      <p>Studies in communication design at Hochschule Augsburg, master's in exhibition design at FH Joanneum Graz.</p>
+      <p>My work exists at the intersection of digital media and physical space. Projections, interactive installations, data visualizations. Things that bring people together.</p>
     </div>
   </div>
 </div>
@@ -126,7 +122,8 @@
     <img src="elena-portrait.jpg" alt="Elena Vogler">
   </div>
   <div class="photo-quote-text">
-    <p>Things that happen in space,<br><em>not on a screen.</em></p>
+    <p>I am interested in what happens when motion and design leave the screen and become part of a space.</p>
+    <p><em>Creating experiences people can move through and share together.</em></p>
   </div>
 </div>
 
@@ -150,7 +147,7 @@
     </div>
     <div class="cv-entry">
       <span class="cv-year">2023 – 2024</span>
-      <div><p class="cv-title">Motion Design (working student)</p><p class="cv-detail">Zehntausendgrad, Augsburg</p></div>
+      <div><p class="cv-title">Motion Design — Working student</p><p class="cv-detail">Zehntausendgrad, Augsburg</p></div>
     </div>
     <div class="cv-entry">
       <span class="cv-year">2021 – 2023</span>
@@ -202,8 +199,7 @@
       <li>Motion Design</li>
       <li>Exhibition Design</li>
       <li>Projection Mapping</li>
-      <li>Interactive Installation</li>
-      <li>Data Visualization</li>
+      <li>Installation</li>
       <li>Videography</li>
     </ul>
   </div>
@@ -218,17 +214,8 @@
   </div>
 </div>
 
-<!-- CHIPS -->
-<div class="chips-row">
-  <span class="chip">Motion Design</span>
-  <span class="chip">Exhibition Design</span>
-  <span class="chip">Projection Mapping</span>
-  <span class="chip">TouchDesigner</span>
-  <span class="chip">Graz</span>
-</div>
 
 <footer>
-  <span>Graz · 2025</span>
   <span>Motion Design · Exhibition Design</span>
   <a href="index.html">← Back to projects</a>
 </footer>

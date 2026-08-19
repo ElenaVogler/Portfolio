@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kein Ort. Nirgends. — Elena Vogler</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --border: 1px solid #111; --blue: #0000ff; }
+
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #fff; color: #111; }
+
+  nav {
+    height: 50px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-bottom: var(--border);
+    position: sticky; top: 0; z-index: 100; background: #fff;
+  }
+  nav .name { font-size: 13px; font-weight: 700; color: #111; text-decoration: none; }
+  nav .subtitle { font-size: 12px; color: #999; letter-spacing: 0.05em; text-transform: uppercase; }
+  nav .nav-right { display: flex; gap: 20px; }
+  nav a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--blue); }
+
+  .video-hero { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; overflow: hidden; }
+  .video-hero iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+  .intro { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+  .intro-left { padding: 60px 48px; border-right: var(--border); }
+  .project-type {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px;
+  }
+  .project-title {
+    font-size: clamp(32px, 5vw, 64px); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 0.95;
+  }
+  .intro-right { padding: 60px 48px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .intro-lead { font-size: 22px; font-style: italic; line-height: 1.4; color: #111; margin-bottom: 28px; }
+  .intro-body { font-size: 13px; color: #444; line-height: 1.75; }
+  .intro-body p + p { margin-top: 14px; }
+
+  .photo-full { width: 100%; border-bottom: var(--border); overflow: hidden; }
+  .photo-full img {
+    width: 100%; height: 56vh; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .photo-full:hover img { transform: scale(1.02); }
+  .photo-hero img { height: 72vh; }
+
+  .photo-pano { width: 100%; border-bottom: var(--border); overflow: hidden; background: #000; }
+  .photo-pano img { width: 100%; max-height: 58vh; object-fit: cover; display: block; }
+
+  .large-quote { padding: 80px 48px; border-bottom: var(--border); }
+  .large-quote p {
+    font-size: clamp(28px, 4vw, 52px); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.05; max-width: 900px;
+  }
+  .large-quote p em { font-style: italic; font-weight: 400; }
+
+  /* Text and photo side by side. Put the photo div first in the markup
+     to flip the sides; the divider follows whichever column comes first. */
+  .text-photo { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+  .text-photo > *:first-child { border-right: var(--border); }
+  .text-photo-text {
+    padding: 60px 48px; display: flex; flex-direction: column; justify-content: center;
+    font-size: 13px; color: #444; line-height: 1.75;
+  }
+  .text-photo-text p { max-width: 520px; }
+  .text-photo-text p + p { margin-top: 14px; }
+  .text-photo-text a { color: var(--blue); text-decoration: none; font-weight: 700; }
+  .text-photo-img { overflow: hidden; aspect-ratio: 4/3; }
+  .text-photo-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .text-photo-img:hover img { transform: scale(1.04); }
+
+  .credits { padding: 48px; font-size: 13px; color: #444; line-height: 1.75; }
+
+
+  .photo-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: var(--border); }
+  .photo-grid-3 > div { overflow: hidden; aspect-ratio: 16/9; border-right: var(--border); }
+  .photo-grid-3 > div:last-child { border-right: none; }
+  .photo-grid-3 img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .photo-grid-3 > div:hover img { transform: scale(1.04); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+  .split-photo { overflow: hidden; aspect-ratio: 3/4; border-right: var(--border); }
+  .split-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .split-photo:hover img { transform: scale(1.04); }
+  .split-text { padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .split-text .kicker { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 20px; }
+  .split-text h2 { font-size: clamp(22px, 2.6vw, 34px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+  .split-text p { font-size: 13px; color: #444; line-height: 1.75; max-width: 480px; }
+  .split-text p + p { margin-top: 14px; }
+
+  footer {
+    height: 50px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; border-top: var(--border); background: #fff;
+  }
+  footer span { font-size: 12px; color: #999; }
+  footer a { font-size: 12px; font-weight: 600; color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 700px) {
+    nav .subtitle { display: none; }
+    .intro { grid-template-columns: 1fr; }
+    .intro-left { border-right: none; border-bottom: var(--border); padding: 40px 24px; }
+    .intro-right { padding: 40px 24px; }
+    .large-quote { padding: 48px 24px; }
+    .text-photo { grid-template-columns: 1fr; }
+    .text-photo > *:first-child { border-right: none; border-bottom: var(--border); }
+    .text-photo-text { padding: 40px 24px; }
+    .credits { padding: 32px 24px; }
+    .photo-full img { height: 46vh; }
+    .photo-hero img { height: 58vh; }
+    .photo-pano img { max-height: 40vh; }
+    .photo-grid-3, .split { grid-template-columns: 1fr; }
+    .photo-grid-3 > div { border-right: none; border-bottom: var(--border); }
+    .photo-grid-3 > div:last-child { border-bottom: none; }
+    .split-photo { border-right: none; border-bottom: var(--border); aspect-ratio: 3/4; }
+    .split-text { padding: 40px 24px; }
+    footer span:nth-child(2) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="name">Elena Vogler</a>
+  <span class="subtitle">Motion &amp; Exhibition Design</span>
+  <div class="nav-right">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="video-hero">
+  <iframe
+    src="https://www.youtube.com/embed/pAWYCigCK8I?autoplay=1&mute=1&loop=1&playlist=pAWYCigCK8I&controls=1&rel=0&modestbranding=1"
+    title="Kein Ort. Nirgends. Projection performance"
+    allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>
+
+<div class="intro">
+  <div class="intro-left">
+    <p class="project-type">Master's thesis · Projection performance · Graz 2026</p>
+    <h1 class="project-title">Kein Ort.<br>Nirgends.</h1>
+  </div>
+  <div class="intro-right">
+    <p class="intro-lead">Feminist history has almost no address in this city.</p>
+    <div class="intro-body">
+      <p>Of roughly 1,700 streets and squares in Graz, about 60 carry the name of a woman. That is fewer than the ones named after plants.</p>
+      <p>Kein Ort. Nirgends. is a two hour projection mapping piece on a plain garden wall in Zimmerplatzgasse in Graz. It tells the feminist story of this place.</p>
+    </div>
+  </div>
+</div>
+
+<div class="photo-full photo-hero">
+  <img src="DSC07552.jpg" alt="Kein Ort. Nirgends., projection on the wall in Zimmerplatzgasse, Graz">
+</div>
+
+<div class="text-photo">
+  <div class="text-photo-text">
+    <p>In the 1970s and 1980s women had almost no autonomous space of their own. Flats, meeting rooms, money and infrastructure were rarely in their own hands, and a room to organise in was a matter of permission rather than of right. Across Europe women stopped asking for it and took it instead.</p>
+    <p>Amsterdam 1974, Zurich 1980, the same argument each time about housing and about who is allowed to decide what a city is for. Women organised inside these movements and usually had to claim their own rooms within them as well.</p>
+  </div>
+  <div class="text-photo-img">
+    <img src="DSC07441.jpg" alt="Projected newspaper clippings about the occupation">
+  </div>
+</div>
+
+<div class="split">
+  <div class="split-photo">
+    <img src="DSC07442.jpg" alt="OPEN posters projected across the wall">
+  </div>
+  <div class="split-text">
+    <p class="kicker">Graz 1991</p>
+    <h2>Women occupied the old Tierspital.</h2>
+    <p>The empty veterinary hospital in Zimmerplatzgasse was taken over by women who wanted a house that belonged to them. For a short time it held an open café, an open library, a bicycle kitchen and rooms open to all women. Everything in it was free and run collectively.</p>
+    <p>The house was cleared by a large police operation. First it stood empty, then it was stripped, then it came down. What is left of it today is a garden wall and a patch of grass.</p>
+  </div>
+</div>
+
+<div class="large-quote">
+  <p>First the windows. Then the roof tiles.<br><em>Last came the excavator.</em></p>
+</div>
+
+<div class="photo-pano">
+  <img src="DSC07509.jpg" alt="The wall breaking apart in the projection">
+</div>
+
+
+<div class="photo-grid-3">
+  <div><img src="DSC07437.jpg" alt="Projection with yellow text bands"></div>
+  <div><img src="DSC07451.jpg" alt="Text projection: Amsterdam 1974, Zürich 1980"></div>
+  <div><img src="DSC07481.jpg" alt="Audience in front of the projection"></div>
+</div>
+
+<div class="text-photo">
+  <div class="text-photo-img">
+    <img src="DSC07419.jpg" alt="The site at night with the poster on the pavement">
+  </div>
+  <div class="text-photo-text">
+    <p>The urge for autonomous space did not disappear with the eviction. It moved into feminist collectives, queer centres and rooms without consumption, and it still runs into the same questions about rent, permission and who is seen in public space. The fight is not over. It looks different now.</p>
+  </div>
+</div>
+
+<div class="photo-grid-3">
+  <div><img src="DSC07438.jpg" alt="Projected posters on the plastered wall"></div>
+  <div><img src="DSC07432.jpg" alt="Visitors reading the printed programme"></div>
+  <div><img src="DSC07433.jpg" alt="Setup with projectors and laptop"></div>
+</div>
+
+<div class="credits">
+  <p>Master's thesis in Exhibition Design, shown as a free public projection in Zimmerplatzgasse, Graz. Thanks to everyone who came and stayed.</p>
+</div>
+
+<footer>
+  <span>Graz · 2026</span>
+  <span>Motion Design · Exhibition Design</span>
+  <a href="index.html">← Back to projects</a>
+</footer>
+
+</body>
+</html>
