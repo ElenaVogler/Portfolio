@@ -120,7 +120,7 @@
   <a class="card" href="keinort.html">
     <div class="media">
       <img src="DSC07552.jpg" alt="Kein Ort. Nirgends.">
-      <video poster="DSC07552.jpg" muted loop playsinline preload="none"><source src="keinort-preview.mp4" type="video/mp4"></video>
+      <video poster="DSC07552.jpg" muted loop playsinline preload="auto"><source src="keinort-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Projection Mapping <span class="sep">·</span> Graz 2026</span>
@@ -134,7 +134,7 @@
   <a class="card" href="democracy.html">
     <div class="media">
       <img src="DSC07028.jpg" alt="Entangled in Democracy">
-      <video poster="DSC07028.jpg" muted loop playsinline preload="none"><source src="democracy-preview.mp4" type="video/mp4"></video>
+      <video poster="DSC07028.jpg" muted loop playsinline preload="auto"><source src="democracy-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Exhibition <span class="sep">·</span> Graz 2026</span>
@@ -148,7 +148,7 @@
   <a class="card" href="lautli.html">
     <div class="media">
       <img src="DSC06556.jpg" alt="Lautli">
-      <video poster="DSC06556.jpg" muted loop playsinline preload="none"><source src="lautli-preview.mp4" type="video/mp4"></video>
+      <video poster="DSC06556.jpg" muted loop playsinline preload="auto"><source src="lautli-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Projection Mapping <span class="sep">·</span> Graz 2025</span>
@@ -162,7 +162,7 @@
   <a class="card" href="einsamkeit.html">
     <div class="media">
       <img src="Einsamkeit_poster_Neu.jpg" alt="Wenn Einsamkeit politisch wird">
-      <video poster="Einsamkeit_poster_Neu.jpg" muted loop playsinline preload="none"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
+      <video poster="Einsamkeit_poster_Neu.jpg" muted loop playsinline preload="auto"><source src="einsamkeit-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Data Visualization <span class="sep">·</span> Graz 2025</span>
@@ -176,7 +176,7 @@
   <a class="card" href="nebel.html">
     <div class="media">
       <img src="DSC04496.png" alt="Die Nebel lichten sich">
-      <video poster="DSC04496.png" muted loop playsinline preload="none"><source src="nebel-preview.mp4" type="video/mp4"></video>
+      <video poster="DSC04496.png" muted loop playsinline preload="auto"><source src="nebel-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Multimedia Installation <span class="sep">·</span> Augsburg 2024</span>
@@ -190,7 +190,7 @@
   <a class="card" href="diba.html">
     <div class="media">
       <img src="schaufensterbespielung5.png" alt="Diba Cafe Bar">
-      <video poster="schaufensterbespielung5.png" muted loop playsinline preload="none"><source src="diba-preview.mp4" type="video/mp4"></video>
+      <video poster="schaufensterbespielung5.png" muted loop playsinline preload="auto"><source src="diba-preview.mp4" type="video/mp4"></video>
     </div>
     <div class="meta">
       <span class="card-type">Projection Mapping <span class="sep">·</span> Munich 2021</span>
@@ -232,8 +232,17 @@
     // Only fade the video in once real frames are on screen (not on the
     // 'playing' event, which can fire before anything has been decoded).
     const reveal = () => { if (active === card) card.classList.add('playing'); };
+    video.addEventListener('playing', () => {
+      if (video.requestVideoFrameCallback) {
+        // Fires once the first real frame has been painted.
+        video.requestVideoFrameCallback(() => reveal());
+      } else {
+        setTimeout(reveal, 200);
+      }
+    });
+    // Safety net in case neither of the above fires.
     video.addEventListener('timeupdate', () => {
-      if (video.currentTime > 0.15) reveal();
+      if (video.currentTime > 0.1) reveal();
     });
 
     const start = () => {
